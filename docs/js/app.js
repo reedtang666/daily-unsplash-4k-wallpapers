@@ -1,6 +1,6 @@
 // 配置项：仓库用户名和分支（替换为你的信息）
 const CONFIG = {
-    GITHUB_USER: "你的GitHub用户名",
+    GITHUB_USER: "reedtang666",
     REPO_NAME: "daily-unsplash-4k-wallpapers",
     BRANCH: "main"
 };
@@ -28,8 +28,14 @@ document.addEventListener("DOMContentLoaded", async () => {
 // 1. 加载日期列表（从 GitHub 仓库的 wallpapers 目录获取所有日期文件夹）
 async function loadDateList() {
     try {
-        const url = `https://api.github.com/repos/${CONFIG.GITHUB_USER}/${CONFIG.REPO_NAME}/contents/wallpapers?ref=${CONFIG.BRANCH}`;
+         const url = `https://api.github.com/repos/${CONFIG.GITHUB_USER}/${CONFIG.REPO_NAME}/contents/wallpapers?ref=${CONFIG.BRANCH}`;
         const response = await fetch(url);
+
+         // 新增：处理 HTTP 错误（404/500 等）
+        if (!response.ok) {
+            throw new Error(`API 请求失败：${response.status} ${response.statusText}`);
+        }
+
         const data = await response.json();
 
         // 筛选文件夹，提取日期（按时间倒序排序）
@@ -38,7 +44,7 @@ async function loadDateList() {
             .sort((a, b) => new Date(b.name) - new Date(a.name));
 
         if (dateFolders.length === 0) {
-            dateSelect.innerHTML = "<option value=''>No wallpapers found</option>";
+            dateSelect.innerHTML = "<option value=''>No wallpapers found (empty directory)</option>";
             return;
         }
 
@@ -56,7 +62,14 @@ async function loadDateList() {
 
     } catch (error) {
         console.error("Failed to load date list:", error);
-        wallpaperGrid.innerHTML = "<div class='col-span-full text-center py-12 text-red-500'><i class='fa fa-exclamation-circle text-2xl mb-3'></i><p>Failed to load date list</p></div>";
+        // 友好提示，引导用户检查配置
+        wallpaperGrid.innerHTML = `
+            <div class='col-span-full text-center py-12 text-red-500'>
+                <i class='fa fa-exclamation-circle text-2xl mb-3'></i>
+                <p>Failed to load wallpapers (API Error)</p>
+                <p class='text-sm mt-2'>Check if the repository/user name is correct in app.js</p>
+            </div>
+        `;
     }
 }
 
