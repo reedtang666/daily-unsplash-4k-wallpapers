@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Daily Unsplash 4K Wallpapers</title>
+    <!-- Tailwind CSS（无需本地安装，CDN 引入） -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- 图标库（下载/切换图标） -->
+    <link href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body class="bg-gray-100 text-gray-800">
+    <!-- 导航栏 -->
+    <header class="bg-white shadow-md py-4">
+        <div class="container mx-auto px-4 flex flex-col md:flex-row justify-between items-center">
+            <h1 class="text-2xl font-bold text-blue-600 mb-2 md:mb-0">
+                <i class="fa fa-image mr-2"></i>Daily 4K Wallpapers
+            </h1>
+            <div class="flex items-center gap-4">
+                <!-- 主题切换按钮 -->
+                <button id="themeToggle" class="px-3 py-1 rounded bg-gray-200 hover:bg-gray-300 transition">
+                    <i class="fa fa-moon-o mr-1"></i>Dark Mode
+                </button>
+                <!-- 仓库链接 -->
+                <a href="https://github.com/你的用户名/daily-unsplash-4k-wallpapers" target="_blank" class="px-3 py-1 rounded bg-gray-800 text-white hover:bg-gray-700 transition">
+                    <i class="fa fa-github mr-1"></i>GitHub
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <!-- 筛选区 -->
+    <section class="container mx-auto px-4 py-6">
+        <div class="flex flex-col md:flex-row gap-4 items-center justify-between mb-6">
+            <!-- 日期选择器 -->
+            <div>
+                <label for="dateSelect" class="font-medium mr-2">Select Date:</label>
+                <select id="dateSelect" class="px-3 py-2 border border-gray-300 rounded hover:border-blue-500 transition">
+                    <!-- 日期选项由 JS 动态生成 -->
+                </select>
+            </div>
+            <!-- 壁纸类型切换 -->
+            <div class="flex gap-2">
+                <button id="desktopBtn" class="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 transition">
+                    <i class="fa fa-desktop mr-1"></i>Desktop
+                </button>
+                <button id="mobileBtn" class="px-4 py-2 bg-gray-200 hover:bg-gray-300 rounded transition">
+                    <i class="fa fa-mobile mr-1"></i>Mobile
+                </button>
+            </div>
+        </div>
+
+        <!-- 主题提示 -->
+        <div id="themeInfo" class="bg-blue-50 border-l-4 border-blue-500 p-3 mb-6 hidden">
+            <h3 class="font-medium">Today's Theme: <span id="themeText"></span></h3>
+        </div>
+
+        <!-- 图片展示区 -->
+        <div id="wallpaperGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+            <!-- 图片由 JS 动态渲染 -->
+            <div class="col-span-full text-center py-12 text-gray-500">
+                <i class="fa fa-spinner fa-spin text-2xl mb-3"></i>
+                <p>Loading wallpapers...</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- 页脚 -->
+    <footer class="bg-white py-6 mt-10 border-t border-gray-200">
+        <div class="container mx-auto px-4 text-center text-gray-600">
+            <p>© 2025 Daily Unsplash 4K Wallpapers | All images from <a href="https://unsplash.com" target="_blank" class="text-blue-600 hover:underline">Unsplash</a></p>
+            <p class="mt-2 text-sm">Free for personal & commercial use (with attribution)</p>
+        </div>
+    </footer>
+
+    <script src="js/app.js"></script>
+</body>
+</html>

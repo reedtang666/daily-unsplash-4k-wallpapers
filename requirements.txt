@@ -1,0 +1,2 @@
+requests>=2.31.0
+python-dotenv>=1.0.0  # 可选，用于管理 API Key（开源时避免硬编码）

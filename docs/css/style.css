@@ -1,0 +1,35 @@
+/* 图片悬停效果 */
+.wallpaper-card {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+.wallpaper-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1);
+}
+
+/* 下载按钮样式 */
+.download-btn {
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+.wallpaper-card:hover .download-btn {
+    opacity: 1;
+}
+
+/* 暗黑模式样式 */
+body.dark-mode {
+    background-color: #1a1a1a;
+    color: #e0e0e0;
+}
+body.dark-mode header,
+body.dark-mode footer {
+    background-color: #2d2d2d;
+    color: #e0e0e0;
+}
+body.dark-mode .bg-gray-200 {
+    background-color: #3d3d3d;
+    color: #e0e0e0;
+}
+body.dark-mode .border-gray-300 {
+    border-color: #4d4d4d;
+}
