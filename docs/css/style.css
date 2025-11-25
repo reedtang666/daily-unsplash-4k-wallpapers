@@ -11,16 +11,21 @@
 .download-btn {
     opacity: 0;
     transition: opacity 0.3s ease;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 .wallpaper-card:hover .download-btn {
     opacity: 1;
 }
 
-/* Mobile 模式图片容器 16:9 比例 */
+/* Mobile 模式图片容器 1440:2960 比例 */
 .mobile-image-container {
     position: relative;
     width: 100%;
-    padding-bottom: 56.25%; /* 16:9 比例 = 9/16 = 0.5625 */
+    padding-bottom: 200%; /* 2960/1440 = 2.0556 */
     overflow: hidden;
 }
 .mobile-image-container img {
