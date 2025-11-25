@@ -1,0 +1,6 @@
+# .gitignore
+.env
+__pycache__/
+*.pyc
+wallpapers/  # 可选：本地开发时可忽略壁纸文件夹，仅让 GitHub Actions 生成
+.DS_Store
