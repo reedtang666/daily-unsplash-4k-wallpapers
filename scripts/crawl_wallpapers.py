@@ -51,7 +51,7 @@ def crawl_wallpapers(orientation, res_width, res_height, save_dir):
         "per_page": PER_PAGE,
         "w": res_width,
         "h": res_height,
-        "order_by": "relevant"  # 按主题相关性排序
+        "order_by": "latest"  # 按主题相关性排序
     }
     headers = {
         "Authorization": f"Client-ID {ACCESS_KEY}",
