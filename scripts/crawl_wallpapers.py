@@ -16,16 +16,20 @@ DESKTOP_RES = (3840, 2160)  # 电脑 4K 分辨率（横屏）
 MOBILE_RES = (1440, 2960)   # 手机 4K 分辨率（竖屏，适配主流旗舰机）
 PER_PAGE = 10               # 每种类型抓取数量
 # 随机主题列表（每次选1-2个，实现主题随机）
-THEMES = [
-    "nature", "mountain", "ocean", "forest", "city", "night", "sunset",
-    "galaxy", "desert", "lake", "architecture", "minimalist", "wildlife"
+WALLPAPER_THEMES = [
+    "serene lake",    # 静谧湖泊（治愈系，浅色调适配白天桌面）
+    "snowy mountain", # 雪山（壮阔感，高对比度不挡图标）
+    "twilight sky",   # 暮色天空（渐变色彩，适配锁屏/深色模式）
+    "soft minimalist",# 柔和简约（低饱和度，不干扰桌面操作）
+    "starry meadow",  # 星空草甸（意境感，夜间使用不刺眼）
+    "ethereal architecture" # 空灵建筑（线条感强，适配图标排版）
 ]
 # ------------------------------------------------------------
 
 def get_random_theme():
     """随机选择1-2个主题"""
     num_themes = random.randint(1, 2)
-    return ", ".join(random.sample(THEMES, num_themes))
+    return ", ".join(random.sample(WALLPAPER_THEMES, num_themes))
 
 def crawl_wallpapers(orientation, res_width, res_height, save_dir):
     """
