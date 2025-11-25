@@ -1,42 +1,47 @@
 name: Auto Crawl Unsplash 4K Wallpapers
 
-# 触发条件：1. 定时任务（上海时间 7:00） 2. 手动触发
+# 第一步：添加权限配置（必须放在 on 字段之前/同级）
+permissions:
+  contents: write  # 允许修改仓库内容（推送文件、提交代码）
+  pull-requests: read
+
+# 触发条件不变
 on:
   schedule:
-    # 直接指定上海时间（Asia/Shanghai），无需转换 UTC
     - cron: '0 7 * * *'
-      timezone: 'Asia/Shanghai'  # 关键：指定时区为上海
-  workflow_dispatch:  # 手动触发按钮
+      timezone: 'Asia/Shanghai'
+  workflow_dispatch:
 
 jobs:
   crawl-and-commit:
     runs-on: ubuntu-latest
     steps:
-      # 1. 拉取仓库代码
+      # 1. 拉取仓库代码（添加 persist-credentials: false，避免凭据冲突）
       - name: Checkout repository
         uses: actions/checkout@v4
+        with:
+          persist-credentials: false  # 禁用默认凭据，必须加！
 
-      # 2. 安装 Python 环境
+      # 2. 安装 Python 环境（不变）
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
           python-version: '3.10'
 
-      # 3. 安装依赖
+      # 3. 安装依赖（不变）
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
           pip install -r requirements.txt
 
-      # 4. 运行爬虫脚本（传递 API Key 环境变量）
+      # 4. 运行爬虫脚本（不变）
       - name: Run crawl script
         run: |
           python scripts/crawl_wallpapers.py
         env:
-          # 从 GitHub Secrets 读取 API Key，赋值给环境变量
           UNSPLASH_ACCESS_KEY: ${{ secrets.UNSPLASH_ACCESS_KEY }}
 
-      # 5. 自动提交壁纸到仓库
+      # 5. 提交并推送（修正 git push 命令格式）
       - name: Commit and push wallpapers
         run: |
           git config --global user.name "github-actions[bot]"
@@ -50,7 +55,7 @@ jobs:
           else
             TODAY=$(date +"%Y-%m-%d")
             git commit -m "feat: add $TODAY 4K wallpapers"
-            # 使用 PUSH_TOKEN 推送
-            git push https://x-access-token:${{ secrets.PUSH_TOKEN }}@github.com/reedtang666/daily-unsplash-4k-wallpapers.git main
+            # 修正：用「你的GitHub用户名 + PUSH_TOKEN」认证（替换 reedtang666 为你的用户名）
+            git push https://reedtang666:${{ secrets.PUSH_TOKEN }}@github.com/reedtang666/daily-unsplash-4k-wallpapers.git main
             echo "✅ 新壁纸已提交到仓库"
           fi
