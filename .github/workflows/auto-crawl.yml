@@ -50,7 +50,7 @@ jobs:
           else
             TODAY=$(date +"%Y-%m-%d")
             git commit -m "feat: add $TODAY 4K wallpapers"
-            # 使用 PAT 推送（替换为你的仓库地址）
-            git push https://reedtang666:${{ secrets.PUSH_TOKEN }}@github.com/reedtang666/daily-unsplash-4k-wallpapers.git main
+            # 使用 PUSH_TOKEN 推送
+            git push https://x-access-token:${{ secrets.PUSH_TOKEN }}@github.com/reedtang666/daily-unsplash-4k-wallpapers.git main
             echo "✅ 新壁纸已提交到仓库"
           fi
