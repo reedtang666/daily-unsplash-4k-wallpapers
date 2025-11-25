@@ -103,11 +103,15 @@ async function loadWallpapers(date, type) {
             // 下载链接（同原始链接，浏览器会触发下载）
             const downloadUrl = imgUrl;
 
+            // Mobile 模式使用 16:9 比例容器，Desktop 保持原样
+            const imageContainerClass = type === "mobile" ? "mobile-image-container" : "relative";
+            const imageClass = type === "mobile" ? "" : "w-full h-64 object-cover";
+
             html += `
                 <div class="wallpaper-card bg-white rounded-lg overflow-hidden shadow-md">
-                    <div class="relative">
-                        <img src="${imgUrl}" alt="${type} wallpaper - ${date}" class="w-full h-64 object-cover">
-                        <a href="${downloadUrl}" download="${date}_${img.name}" class="download-btn absolute bottom-3 right-3 bg-blue-600 text-white p-2 rounded-full hover:bg-blue-700 transition">
+                    <div class="${imageContainerClass}">
+                        <img src="${imgUrl}" alt="${type} wallpaper - ${date}" class="${imageClass}">
+                        <a href="${downloadUrl}" target="_blank" class="download-btn absolute bottom-3 right-3 bg-blue-600 text-white p-2 rounded-full hover:bg-blue-700 transition">
                             <i class="fa fa-download"></i>
                         </a>
                     </div>
