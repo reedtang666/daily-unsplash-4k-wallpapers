@@ -5,11 +5,10 @@ permissions:
   contents: write  # 允许修改仓库内容（推送文件、提交代码）
   pull-requests: read  # 可选，仅读取PR相关（无需可删除）
 
-# 触发条件不变
+# 触发条件：每天上海时间早上10点（UTC时间凌晨2点）
 on:
   schedule:
-    - cron: '0 7 * * *'
-      timezone: 'Asia/Shanghai'
+    - cron: '0 2 * * *'  # UTC 02:00 = 上海时间 10:00 (UTC+8)
   workflow_dispatch:
 
 jobs:
