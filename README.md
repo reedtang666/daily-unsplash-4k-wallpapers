@@ -103,8 +103,7 @@ Modify the `cron` expression in `.github/workflows/auto-crawl.yml`:
 ```yaml
 on:
   schedule:
-    - cron: '0 7 * * *'  # Change to your desired time (Shanghai Time)
-      timezone: 'Asia/Shanghai'
+    - cron: '0 2 * * *'  # UTC 02:00 = 上海时间 10:00 (UTC+8)
 ```
 
 ### 2. Adjust Wallpaper Quantity/Resolution
@@ -132,7 +131,7 @@ THEMES = [
 - Click the download icon (bottom-right of each image) to save to local
 
 ### Auto-Crawl Logic
-- GitHub Actions runs daily at 7:00 AM Shanghai Time
+- GitHub Actions runs daily at 10:00 AM Shanghai Time
 - Crawls 10 desktop (landscape) + 10 mobile (portrait) 4K wallpapers
 - Saves wallpapers to `wallpapers/YYYY-MM-DD/desktop/` and `wallpapers/YYYY-MM-DD/mobile/`
 - Auto-commits and pushes new wallpapers to the repository
