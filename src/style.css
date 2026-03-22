@@ -1,0 +1,98 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --transition-fast: 0.2s;
+  --transition-normal: 0.3s;
+  --transition-slow: 0.5s;
+}
+
+body {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  transition: background-color var(--transition-normal), color var(--transition-normal);
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #cbd5e1;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #94a3b8;
+}
+
+.dark ::-webkit-scrollbar-thumb {
+  background: #475569;
+}
+
+.dark ::-webkit-scrollbar-thumb:hover {
+  background: #64748b;
+}
+
+/* Card hover effects */
+.wallpaper-card {
+  transition: transform var(--transition-normal), box-shadow var(--transition-normal);
+}
+
+.wallpaper-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
+}
+
+/* Image loading skeleton */
+.skeleton {
+  background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+}
+
+.dark .skeleton {
+  background: linear-gradient(90deg, #374151 25%, #4b5563 50%, #374151 75%);
+  background-size: 200% 100%;
+}
+
+@keyframes shimmer {
+  0% { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+
+/* Button styles */
+.btn-primary {
+  @apply px-4 py-2 bg-blue-600 text-white rounded-lg font-medium transition-all duration-300;
+  @apply hover:bg-blue-700 hover:shadow-lg hover:shadow-blue-500/30;
+  @apply active:scale-95;
+}
+
+.btn-secondary {
+  @apply px-4 py-2 bg-gray-200 text-gray-700 rounded-lg font-medium transition-all duration-300;
+  @apply hover:bg-gray-300;
+  @apply dark:bg-gray-700 dark:text-gray-200 dark:hover:bg-gray-600;
+}
+
+/* Glass effect */
+.glass {
+  @apply backdrop-blur-md bg-white/80 dark:bg-gray-900/80;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/* Ensure scrolling works */
+html, body {
+  height: auto;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+#app {
+  min-height: 100vh;
+}
