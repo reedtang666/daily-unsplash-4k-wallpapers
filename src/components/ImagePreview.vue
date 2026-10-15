@@ -15,6 +15,7 @@ const props = defineProps({
 const emit = defineEmits(['close'])
 
 const isLoaded = ref(false)
+const isDownloading = ref(false)
 
 function close() {
   emit('close')
@@ -29,6 +30,31 @@ function handleKeydown(e) {
 function handleBackdropClick(e) {
   if (e.target === e.currentTarget) {
     close()
+  }
+}
+
+async function handleDownload() {
+  if (!props.wallpaper || !props.wallpaper.downloadUrl || isDownloading.value) return
+  isDownloading.value = true
+
+  try {
+    const res = await fetch(props.wallpaper.downloadUrl)
+    if (!res.ok) throw new Error('Download failed')
+    const blob = await res.blob()
+    const blobUrl = window.URL.createObjectURL(blob)
+    const a = document.createElement('a')
+    a.href = blobUrl
+    const fileName = `${props.wallpaper.date || 'wallpaper'}_${props.wallpaper.name || '4k.jpg'}`
+    a.download = fileName
+    document.body.appendChild(a)
+    a.click()
+    document.body.removeChild(a)
+    window.URL.revokeObjectURL(blobUrl)
+  } catch (err) {
+    // 跨域或网络限制时回退到新窗口打开
+    window.open(props.wallpaper.downloadUrl, '_blank')
+  } finally {
+    isDownloading.value = false
   }
 }
 
@@ -67,8 +93,8 @@ function handleLoad() {
         </button>
 
         <!-- Image Container -->
-        <div class="relative max-w-[90vw] max-h-[90vh]">
-          <!-- Loading -->
+        <div class="relative max-w-[90vw] max-h-[82vh] flex flex-col items-center">
+          <!-- Loading Spinner -->
           <div 
             v-if="!isLoaded"
             class="absolute inset-0 flex items-center justify-center"
@@ -79,24 +105,34 @@ function handleLoad() {
           <!-- Image -->
           <img 
             :src="wallpaper.url" 
-            :alt="wallpaper.name"
-            class="max-w-full max-h-[90vh] object-contain rounded-lg transition-opacity duration-300"
+            :alt="wallpaper.title || wallpaper.name"
+            class="max-w-full max-h-[80vh] object-contain rounded-lg shadow-2xl transition-opacity duration-300"
             :class="isLoaded ? 'opacity-100' : 'opacity-0'"
             @load="handleLoad"
           />
         </div>
 
-        <!-- Bottom Info -->
-        <div class="absolute bottom-6 left-1/2 -translate-x-1/2 flex items-center gap-4">
-          <span class="text-white/80 text-sm">{{ wallpaper.name }}</span>
-          <a
-            :href="wallpaper.downloadUrl"
-            target="_blank"
-            class="px-4 py-2 rounded-lg bg-white/10 hover:bg-white/20 text-white text-sm font-medium transition-all duration-300 flex items-center gap-2"
+        <!-- Bottom Info & Download Bar -->
+        <div class="absolute bottom-6 left-1/2 -translate-x-1/2 flex flex-col sm:flex-row items-center gap-3 px-6 py-3 rounded-2xl bg-black/70 backdrop-blur-md border border-white/10 text-white z-10 shadow-xl max-w-[90vw]">
+          <div class="text-center sm:text-left truncate max-w-xs sm:max-w-md">
+            <p class="text-sm font-semibold truncate">{{ wallpaper.title || wallpaper.name }}</p>
+            <p v-if="wallpaper.author" class="text-xs text-gray-400">
+              Photo by 
+              <a :href="wallpaper.authorUrl" target="_blank" class="text-blue-400 hover:underline">
+                {{ wallpaper.author }}
+              </a> 
+              on Unsplash
+            </p>
+          </div>
+
+          <button
+            @click="handleDownload"
+            :disabled="isDownloading"
+            class="px-5 py-2.5 rounded-xl bg-gradient-to-r from-blue-500 to-indigo-600 hover:from-blue-600 hover:to-indigo-700 text-white text-sm font-medium transition-all duration-300 flex items-center gap-2 shadow-lg disabled:opacity-50 cursor-pointer"
           >
-            <i class="fa fa-download"></i>
-            Download
-          </a>
+            <i :class="isDownloading ? 'fa fa-spinner fa-spin' : 'fa fa-download'"></i>
+            <span>{{ isDownloading ? 'Downloading 4K...' : 'Download 4K' }}</span>
+          </button>
         </div>
       </div>
     </Transition>
