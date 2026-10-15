@@ -33,14 +33,15 @@ export function useWallpapers() {
 
     try {
       let response
-      // 1. 优先从站点自带的静态数据加载
+      // 1. 优先从 GitHub Raw 加载最新云端数据（附带时间戳防缓存）
       try {
-        response = await fetch(CONFIG.STATIC_DATA_URL, { cache: 'no-cache' })
-        if (!response.ok) throw new Error('Static data not found')
+        const rawUrlWithTimestamp = `${CONFIG.RAW_DATA_URL}?t=${Date.now()}`
+        response = await fetch(rawUrlWithTimestamp, { cache: 'no-cache' })
+        if (!response.ok) throw new Error('Raw data request returned non-200')
       } catch (err) {
-        // 2. 备选方案：从 GitHub Raw 加载最新数据
-        console.warn('Fallback to GitHub Raw data:', err.message)
-        response = await fetch(CONFIG.RAW_DATA_URL, { cache: 'no-cache' })
+        // 2. 备选方案：回退到站点自带的本地静态数据
+        console.warn('Fallback to local static data:', err.message)
+        response = await fetch(CONFIG.STATIC_DATA_URL, { cache: 'no-cache' })
       }
 
       if (!response.ok) {

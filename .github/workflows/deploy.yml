@@ -3,6 +3,9 @@ name: Deploy to GitHub Pages
 on:
   push:
     branches: ['main']
+  workflow_run:
+    workflows: ['Auto Crawl Unsplash 4K Wallpapers']
+    types: [completed]
 
 permissions:
   contents: read
