@@ -17,16 +17,28 @@ MOBILE_RES = (1440, 2960)   # 手机 4K 分辨率（竖屏）
 PER_PAGE = 20               # 每种类型抓取数量（电脑 20 张 + 手机 20 张 = 每天 40 张）
 
 WALLPAPER_THEMES = [
-    "serene lake",
-    "snowy mountain",
-    "twilight sky",
-    "soft minimalist",
-    "starry meadow",
-    "ethereal architecture",
-    "calm ocean",
-    "foggy forest",
-    "cyberpunk city",
-    "golden sunset"
+    # 🏔️ 壮丽山湖与森林
+    "snowy mountain",         # 壮美雪山
+    "serene lake",            # 静谧湖泊倒影
+    "foggy forest",           # 晨雾森林
+    "autumn golden forest",   # 金秋红叶森林
+    "iceland waterfall",      # 冰岛瀑布奇观
+
+    # 🌊 海洋与落日晚霞
+    "calm ocean",             # 平静蔚蓝海洋
+    "aerial coastline",       # 航拍俯瞰海岸线
+    "twilight sky",           # 暮色渐变天空
+    "golden sunset",          # 金色夕阳晚霞
+
+    # 🌌 夜空与极光宇宙
+    "aurora borealis",        # 绚丽北极光
+    "milky way galaxy",       # 深空银河宇宙
+    "starry meadow",          # 星空草甸
+
+    # 🏙️ 建筑与大漠奇观
+    "desert dunes sunset",    # 沙漠沙丘光影
+    "cyberpunk city",         # 赛博朋克夜城
+    "ethereal architecture"   # 空灵现代建筑线条
 ]
 
 def get_random_theme():

@@ -1,180 +1,178 @@
 # Daily Unsplash 4K Wallpapers 🖼️
 
-An open-source project that **automatically crawls 4K wallpapers from Unsplash** (10 desktop + 10 mobile wallpapers daily) and provides an English static website for browsing & downloading by date.
+[![GitHub Pages](https://img.shields.io/badge/GitHub%20Pages-Live%20Demo-blue?style=flat&logo=github)](https://reedtang666.github.io/daily-unsplash-4k-wallpapers/)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![Vue 3](https://img.shields.io/badge/Vue-3.x-brightgreen?logo=vue.js)](https://vuejs.org/)
+[![Vite](https://img.shields.io/badge/Vite-5.x-purple?logo=vite)](https://vitejs.dev/)
+[![TailwindCSS](https://img.shields.io/badge/TailwindCSS-3.x-38B2AC?logo=tailwind-css)](https://tailwindcss.com/)
 
-Powered by GitHub Actions (auto-run at 7:00 AM Shanghai Time) and GitHub Pages.
+An automated 4K wallpaper curation and static website that **crawls top-tier 4K wallpapers from Unsplash daily** (20 desktop + 20 mobile, total 40 wallpapers/day). 
 
-## 🌟 Features
+Powered by **GitHub Actions** (auto-crawling & deployment) and **GitHub Pages**.
 
-- **Auto-Crawling**: Daily 7:00 AM (Asia/Shanghai) automatic crawl via GitHub Actions
-- **High Quality**: 4K resolution (3840x2160 for desktop, 1440x2960 for mobile)
-- **Random Themes**: Daily random themes (nature, city, galaxy, etc.)
-- **English Website**: Responsive UI for browsing/downloading wallpapers by date
-- **Open Source**: Full code transparency, easy to fork and customize
-- **Secure**: API Key stored in GitHub Secrets (no hardcoding)
+🔗 **Live Website**: [https://reedtang666.github.io/daily-unsplash-4k-wallpapers/](https://reedtang666.github.io/daily-unsplash-4k-wallpapers/)
+
+---
+
+## 🌟 Key Features
+
+* **⚡ Lightweight CDN Architecture (Zero Git Bloat)**:
+  * No bulky image binaries stored in Git! The crawler stores Unsplash high-speed global CDN links and metadata in a compact JSON file (`~8 KB`).
+  * Your Git repository stays lightweight forever, with instantaneous clones and pushes.
+* **🖼️ 40 High-Res Wallpapers Daily**:
+  * **20 Desktop 4K** (3840 × 2160) landscape wallpapers
+  * **20 Mobile 4K** (1440 × 2960) portrait wallpapers
+* **🎨 15 Curated Photography Themes**:
+  * Covers aurora borealis, deep space galaxies, snowy alpine peaks, serene emerald lakes, aerial coastlines, misty golden forests, desert dunes, and cyberpunk cities.
+* **⚡ Instant UI & Zero API Limits**:
+  * Built with Vue 3 and Tailwind CSS.
+  * Wallpapers render in milliseconds with optimized preview thumbnails.
+  * Real-time live sync with cloud data, eliminating GitHub REST API rate limits.
+* **📥 One-Click 4K Download**:
+  * Streamed Blob download preserving full 3840×2160 resolution without browser interception.
+  * Photographer credit and Unsplash profile attributions included.
+* **🤖 Fully Automated Workflow**:
+  * Scheduled crawl runs daily at 10:00 AM (Asia/Shanghai) via GitHub Actions.
+  * Automatically commits new wallpaper metadata and triggers GitHub Pages re-deployment.
+
+---
 
 ## 📸 Preview
 
-### Website Screenshot
-![Website Preview](https://via.placeholder.com/1200x600?text=Daily+Unsplash+4K+Wallpapers+Preview)
-*(Replace with your actual website screenshot after deployment)*
+### Desktop & Mobile Responsive UI
+* **Dark / Light Theme Switcher**
+* **Calendar Date Picker**
+* **Desktop / Mobile Orientation Filter**
+* **Full-Screen 4K Modal Preview with Zoom & Download**
 
-### Project Structure
-```
+---
+
+## 📁 Project Structure
+
+```text
 daily-unsplash-4k-wallpapers/
-├── .github/workflows/       # GitHub Actions auto-crawl config
-├── scripts/                 # Crawler scripts
-├── wallpapers/              # Auto-generated wallpaper storage (by date)
-├── docs/                    # Static website (GitHub Pages)
-├── .env                     # Local development config (not tracked by Git)
-└── requirements.txt         # Python dependencies
+├── .github/
+│   └── workflows/
+│       ├── auto-crawl.yml       # Daily automated crawl & commit workflow
+│       └── deploy.yml           # GitHub Pages Vite build & deploy workflow
+├── data/
+│   └── wallpapers.json          # Core wallpaper metadata database (~8 KB)
+├── public/
+│   └── data/                    # Static asset copy for Vite production builds
+├── scripts/
+│   └── crawl_wallpapers.py      # Python Unsplash crawler script
+├── src/                         # Vue 3 frontend application
+│   ├── components/              # UI components (DateSelector, Preview, etc.)
+│   ├── composables/             # State & data fetching logic (useWallpapers.js)
+│   ├── App.vue
+│   └── main.js
+├── .env                         # Local environment variables (ignored by Git)
+├── package.json                 # Node.js dependencies & scripts
+├── requirements.txt             # Python crawler dependencies
+└── vite.config.js               # Vite build configuration
 ```
+
+---
+
+## 🎯 15 Curated Photography Themes
+
+Every day, the crawler randomly selects 1–2 themes from this curated photography pool:
+
+| Category | Themes | Visual Description |
+| :--- | :--- | :--- |
+| **Mountains & Lakes** | `snowy mountain`, `serene lake`, `foggy forest` | Majestic alpine reflections, misty woodland rays |
+| **Autumn & Water** | `autumn golden forest`, `iceland waterfall`, `calm ocean` | Golden red foliage, Icelandic volcanic waterfalls, turquoise sea |
+| **Skies & Sunset** | `aerial coastline`, `twilight sky`, `golden sunset` | Drone coastline view, dusk gradients, golden hour oceans |
+| **Night & Cosmos** | `aurora borealis`, `milky way galaxy`, `starry meadow` | Vibrant green auroras, high-contrast galaxy trails, night meadows |
+| **Architecture & Land** | `desert dunes sunset`, `cyberpunk city`, `ethereal architecture` | Sand dune curves, futuristic neon nightscape, minimal lines |
+
+---
 
 ## 🚀 Getting Started
 
 ### Prerequisites
-- Python 3.8+ (for local development)
-- Git
-- Unsplash Developer Account & API Key (free: [Unsplash Developers](https://unsplash.com/developers))
+* **Node.js** 18+ & **npm**
+* **Python** 3.10+ (for local crawler execution)
+* **Unsplash Developer Key** (free at [Unsplash Developers](https://unsplash.com/developers))
 
-### 1. Fork & Clone the Repository
+### 1. Clone the Repository
 ```bash
-# Fork this repo first, then clone your forked version
-git clone https://github.com/your-username/daily-unsplash-4k-wallpapers.git
+git clone https://github.com/reedtang666/daily-unsplash-4k-wallpapers.git
 cd daily-unsplash-4k-wallpapers
 ```
 
 ### 2. Configure Unsplash API Key
-#### Option A: Local Development
-1. Create a `.env` file in the project root:
-   ```env
-   UNSPLASH_ACCESS_KEY=your-unsplash-api-key-here
-   ```
-2. Add `.env` to `.gitignore` (already included in this project)
 
-#### Option B: GitHub Actions (Auto-Crawl)
-1. Go to your forked repo → **Settings** → **Secrets and variables** → **Actions**
-2. Click **New repository secret**
+#### For Local Crawling:
+Create a `.env` file in the root directory:
+```env
+UNSPLASH_ACCESS_KEY=your_unsplash_access_key_here
+```
+
+#### For GitHub Actions Automation:
+1. Go to your GitHub repository → **Settings** → **Secrets and variables** → **Actions**.
+2. Click **New repository secret**.
 3. Name: `UNSPLASH_ACCESS_KEY`
-4. Value: Your Unsplash API Key
-5. Click **Add secret**
+4. Value: Paste your Unsplash Access Key.
 
-### 3. Install Dependencies (macOS/Linux/Windows)
-Use a Python virtual environment (required for macOS to avoid `externally-managed-environment` error):
+### 3. Local Development
+
+#### Start Frontend:
 ```bash
-# Create virtual environment
-python3 -m venv venv
+npm install
+npm run dev
+```
 
-# Activate virtual environment
-# macOS/Linux
-source venv/bin/activate
-# Windows (CMD)
-venv\Scripts\activate.bat
-# Windows (PowerShell)
-.\venv\Scripts\Activate.ps1
-
-# Install dependencies
+#### Run Crawler Manually:
+```bash
 pip install -r requirements.txt
-```
-
-### 4. Run Locally
-```bash
-# Run crawler manually (will generate wallpapers in ./wallpapers/[today-date]/)
 python scripts/crawl_wallpapers.py
-
-# Preview website (open docs/index.html in your browser)
-open docs/index.html  # macOS
-start docs/index.html # Windows
 ```
 
-## 🌐 Website Deployment (GitHub Pages)
-1. Push all code to your forked GitHub repository
-2. Go to repo → **Settings** → **Pages**
-3. Under "Source":
-   - Select "Deploy from a branch"
-   - Branch: `main` → `/docs`
-   - Click **Save**
-4. Wait 1-2 minutes for deployment
-5. Access your website at: `https://your-username.github.io/daily-unsplash-4k-wallpapers`
-
-## ⚙️ Configuration Customization
-### 1. Change Crawl Time
-Modify the `cron` expression in `.github/workflows/auto-crawl.yml`:
-```yaml
-on:
-  schedule:
-    - cron: '0 2 * * *'  # UTC 02:00 = 上海时间 10:00 (UTC+8)
+#### Build for Production:
+```bash
+npm run build
 ```
-
-### 2. Adjust Wallpaper Quantity/Resolution
-Edit `scripts/crawl_wallpapers.py`:
-```python
-DESKTOP_RES = (3840, 2160)  # 4K desktop resolution
-MOBILE_RES = (1440, 2960)   # 4K mobile resolution
-PER_PAGE = 10               # Number of wallpapers per type (desktop/mobile)
-```
-
-### 3. Add Custom Themes
-Update the `THEMES` list in `scripts/crawl_wallpapers.py`:
-```python
-THEMES = [
-    "nature", "mountain", "ocean", "forest", "city", 
-    "night", "sunset", "galaxy", "your-custom-theme"  # Add your own
-]
-```
-
-## 📋 Usage
-### Browse Wallpapers
-- Visit the deployed website
-- Select a date from the dropdown menu
-- Toggle between "Desktop" and "Mobile" wallpapers
-- Click the download icon (bottom-right of each image) to save to local
-
-### Auto-Crawl Logic
-- GitHub Actions runs daily at 10:00 AM Shanghai Time
-- Crawls 10 desktop (landscape) + 10 mobile (portrait) 4K wallpapers
-- Saves wallpapers to `wallpapers/YYYY-MM-DD/desktop/` and `wallpapers/YYYY-MM-DD/mobile/`
-- Auto-commits and pushes new wallpapers to the repository
-- Website automatically loads the latest wallpapers via GitHub API
-
-## 🚨 Important Notes
-### Unsplash API Limits
-- Free plan: 50 requests per hour
-- This project uses ~2 requests per crawl (safe for free plan)
-
-### Copyright Compliance
-- All wallpapers are sourced from [Unsplash](https://unsplash.com/)
-- Free for **personal & commercial use** (requires attribution to the original photographer)
-- See [Unsplash License](https://unsplash.com/license) for details
-
-### Storage Considerations
-- 4K wallpapers are ~10-20MB each → 20 wallpapers/day ≈ 200-400MB/month
-- To avoid excessive storage usage:
-  - Add a cleanup script to delete wallpapers older than 30 days (see [Wiki](https://github.com/your-username/daily-unsplash-4k-wallpapers/wiki/Cleanup-Old-Wallpapers))
-  - Enable GitHub LFS (Large File Storage) for wallpaper files
-
-## 🤝 Contributing
-Contributions are welcome! Please follow these steps:
-1. Fork the repository
-2. Create a new branch (`git checkout -b feature/your-feature`)
-3. Make your changes
-4. Commit your changes (`git commit -m "feat: add your feature"`)
-5. Push to the branch (`git push origin feature/your-feature`)
-6. Open a Pull Request
-
-Please read [CONTRIBUTING.md](CONTRIBUTING.md) for more details (optional, add this file if you want to expand).
-
-## 📄 License
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
-
-## 🙏 Acknowledgements
-- [Unsplash](https://unsplash.com/) for providing high-quality free wallpapers
-- [GitHub Actions](https://github.com/features/actions) for automation
-- [GitHub Pages](https://pages.github.com/) for free website hosting
-- [Tailwind CSS](https://tailwindcss.com/) for responsive UI
 
 ---
 
-Made with ❤️ by [your-name](https://github.com/your-username)
+## 🌐 GitHub Pages Deployment Guide
 
-If you like this project, please give it a ⭐ on GitHub!
+1. Ensure the repository's Pages settings use **GitHub Actions**:
+   * Navigate to: **Settings → Pages**
+   * Under **Build and deployment → Source**, select **`GitHub Actions`**.
+2. Push your changes to the `main` branch:
+   ```bash
+   git push origin main
+   ```
+3. GitHub Actions will automatically build Vite and deploy the artifacts to GitHub Pages within ~1 minute.
+
+---
+
+## ⚙️ Customization
+
+### 1. Changing Crawl Schedule
+Modify the cron schedule in `.github/workflows/auto-crawl.yml`:
+```yaml
+on:
+  schedule:
+    - cron: '0 2 * * *'  # UTC 02:00 = 10:00 AM Asia/Shanghai
+  workflow_dispatch:     # Enables manual one-click trigger from GitHub Actions tab
+```
+
+### 2. Adjusting Wallpaper Counts
+Edit `PER_PAGE` in `scripts/crawl_wallpapers.py`:
+```python
+PER_PAGE = 20  # Number of wallpapers per type (20 desktop + 20 mobile = 40/day)
+```
+
+---
+
+## ⚖️ Copyright & License
+
+* All photos are powered by the **[Unsplash API](https://unsplash.com/)** under the [Unsplash License](https://unsplash.com/license) (free for personal and commercial use with attribution).
+* Source code is licensed under the **[MIT License](LICENSE)**.
+
+---
+
+Made with ❤️ by [reedtang666](https://github.com/reedtang666)
