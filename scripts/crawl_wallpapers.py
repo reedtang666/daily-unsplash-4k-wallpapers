@@ -14,7 +14,7 @@ if not ACCESS_KEY:
 
 DESKTOP_RES = (3840, 2160)  # 电脑 4K 分辨率（横屏）
 MOBILE_RES = (1440, 2960)   # 手机 4K 分辨率（竖屏）
-PER_PAGE = 10               # 每种类型抓取数量
+PER_PAGE = 20               # 每种类型抓取数量（电脑 20 张 + 手机 20 张 = 每天 40 张）
 
 WALLPAPER_THEMES = [
     "serene lake",
