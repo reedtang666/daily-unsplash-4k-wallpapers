@@ -4,74 +4,10 @@ const CONFIG = {
   GITHUB_USER: 'reedtang666',
   REPO_NAME: 'daily-unsplash-4k-wallpapers',
   BRANCH: 'main',
-  MAX_RETRIES: 3,
-  RETRY_DELAY: 1000,
-  CACHE_DURATION: 5 * 60 * 1000, // 5 minutes
-  GITHUB_TOKEN: import.meta.env.VITE_GITHUB_TOKEN || ''
-}
-
-// Build headers with optional token
-function buildHeaders() {
-  const headers = {
-    'Accept': 'application/vnd.github.v3+json'
-  }
-  if (CONFIG.GITHUB_TOKEN) {
-    headers['Authorization'] = `token ${CONFIG.GITHUB_TOKEN}`
-  }
-  return headers
-}
-
-// Simple in-memory cache
-const cache = new Map()
-
-function getCache(key) {
-  const cached = cache.get(key)
-  if (cached && Date.now() - cached.timestamp < CONFIG.CACHE_DURATION) {
-    return cached.data
-  }
-  return null
-}
-
-function setCache(key, data) {
-  cache.set(key, { data, timestamp: Date.now() })
-}
-
-// Helper function for retry with delay
-async function fetchWithRetry(url, options = {}, retries = CONFIG.MAX_RETRIES) {
-  let lastError
-  
-  for (let i = 0; i < retries; i++) {
-      try {
-        const response = await fetch(url, {
-          ...options,
-          headers: {
-            ...buildHeaders(),
-            ...options.headers
-          }
-        })
-      
-      if (!response.ok) {
-        if (response.status === 404) {
-          return { ok: true, status: 404, json: () => Promise.resolve([]) }
-        }
-        if (response.status === 403) {
-          throw new Error('API rate limit exceeded. Please try again later.')
-        }
-        throw new Error(`HTTP ${response.status}`)
-      }
-      
-      return response
-    } catch (error) {
-      lastError = error
-      console.warn(`Fetch attempt ${i + 1} failed:`, error.message)
-      
-      if (i < retries - 1) {
-        await new Promise(resolve => setTimeout(resolve, CONFIG.RETRY_DELAY * (i + 1)))
-      }
-    }
-  }
-  
-  throw lastError
+  // 静态 JSON 文件路径（跟随 Vite 打包 base 路径）
+  STATIC_DATA_URL: `${import.meta.env.BASE_URL}data/wallpapers.json`,
+  // GitHub Raw 备选路径
+  RAW_DATA_URL: 'https://raw.githubusercontent.com/reedtang666/daily-unsplash-4k-wallpapers/main/data/wallpapers.json'
 }
 
 export function useWallpapers() {
@@ -83,198 +19,123 @@ export function useWallpapers() {
   const error = ref(null)
   const theme = ref('')
 
-  // Fetch all date folders from GitHub
-  async function fetchDates() {
-    try {
-      error.value = null
-      
-      // Check cache first
-      const cacheKey = 'dates'
-      const cached = getCache(cacheKey)
-      if (cached) {
-        dates.value = cached.dates
-        currentDate.value = cached.currentDate
-        return
-      }
-      
-      const url = `https://api.github.com/repos/${CONFIG.GITHUB_USER}/${CONFIG.REPO_NAME}/contents/wallpapers?ref=${CONFIG.BRANCH}`
-      
-      const response = await fetchWithRetry(url)
-      
-      if (response.status === 404) {
-        dates.value = []
-        return
-      }
-      
-      const data = await response.json()
-      
-      if (!Array.isArray(data)) {
-        throw new Error('Invalid response format')
-      }
-      
-      // Filter and sort date folders (newest first)
-      const sortedDates = data
-        .filter(item => item.type === 'dir' && /^\d{4}-\d{2}-\d{2}$/.test(item.name))
-        .sort((a, b) => new Date(b.name) - new Date(a.name))
-      
-      dates.value = sortedDates
-      
-      if (dates.value.length > 0) {
-        currentDate.value = dates.value[0].name
-      }
-      
-      // Cache the result
-      setCache(cacheKey, { dates: dates.value, currentDate: currentDate.value })
-    } catch (e) {
-      error.value = 'Failed to load dates. Please try again later.'
-      console.error('Failed to fetch dates:', e)
-    }
-  }
+  // 内部缓存完整的 JSON 数据
+  const cachedData = ref(null)
 
-  // Fetch wallpapers for specific date and type
-  async function fetchWallpapers() {
-    if (!currentDate.value || !currentType.value) return
-    
+  // 获取所有壁纸数据（一次请求获取全部日期与直链，零 API 限制）
+  async function loadAllData() {
+    if (cachedData.value) {
+      return cachedData.value
+    }
+
     loading.value = true
     error.value = null
-    
+
     try {
-      // Handle 'all' type - fetch from all dates
-      if (currentType.value === 'all') {
-        await fetchAllWallpapers()
-        loading.value = false
-        return
+      let response
+      // 1. 优先从站点自带的静态数据加载
+      try {
+        response = await fetch(CONFIG.STATIC_DATA_URL, { cache: 'no-cache' })
+        if (!response.ok) throw new Error('Static data not found')
+      } catch (err) {
+        // 2. 备选方案：从 GitHub Raw 加载最新数据
+        console.warn('Fallback to GitHub Raw data:', err.message)
+        response = await fetch(CONFIG.RAW_DATA_URL, { cache: 'no-cache' })
       }
-      
-      // Check cache first
-      const cacheKey = `wallpapers-${currentDate.value}-${currentType.value}`
-      const cached = getCache(cacheKey)
-      if (cached) {
-        wallpapers.value = cached
-        generateTheme()
-        loading.value = false
-        return
+
+      if (!response.ok) {
+        throw new Error(`Failed to load wallpaper database (HTTP ${response.status})`)
       }
-      
-      const url = `https://api.github.com/repos/${CONFIG.GITHUB_USER}/${CONFIG.REPO_NAME}/contents/wallpapers/${currentDate.value}/${currentType.value}?ref=${CONFIG.BRANCH}`
-      
-      const response = await fetchWithRetry(url)
-      
-      if (response.status === 404) {
-        wallpapers.value = []
-        loading.value = false
-        return
-      }
-      
+
       const data = await response.json()
-      
-      if (!Array.isArray(data)) {
-        throw new Error('Invalid response format')
-      }
-      
-      // Filter and sort images
-      const result = data
-        .filter(item => item.type === 'file' && item.name.endsWith('.jpg'))
-        .sort((a, b) => a.name.localeCompare(b.name))
-        .map(img => ({
-          name: img.name,
-          path: img.path,
-          url: `https://raw.githubusercontent.com/${CONFIG.GITHUB_USER}/${CONFIG.REPO_NAME}/${CONFIG.BRANCH}/${img.path}`,
-          downloadUrl: `https://raw.githubusercontent.com/${CONFIG.GITHUB_USER}/${CONFIG.REPO_NAME}/${CONFIG.BRANCH}/${img.path}`,
-          date: currentDate.value,
-          type: currentType.value
-        }))
-      
-      wallpapers.value = result
-      
-      // Cache the result
-      setCache(cacheKey, result)
-      
-      // Generate random theme
-      generateTheme()
-    } catch (e) {
-      error.value = 'Failed to load wallpapers. Please try again later.'
-      console.error('Failed to fetch wallpapers:', e)
+      cachedData.value = data
+      return data
+    } catch (err) {
+      console.error('Error fetching wallpapers JSON:', err)
+      error.value = 'Failed to load wallpapers. Please check back later.'
+      return null
     } finally {
       loading.value = false
     }
   }
 
-  // Fetch all wallpapers from all dates for 'all' type
-  async function fetchAllWallpapers() {
-    const allImages = []
-    
-    // Check cache first
-    const cacheKey = 'wallpapers-all'
-    const cached = getCache(cacheKey)
-    if (cached) {
-      wallpapers.value = cached
-      generateTheme()
+  // 初始化日期列表
+  async function fetchDates() {
+    const data = await loadAllData()
+    if (!data || !data.dates || data.dates.length === 0) {
+      dates.value = []
+      currentDate.value = ''
       return
     }
-    
-    // Fetch from all dates (newest first)
-    for (const dateFolder of dates.value) {
-      const date = dateFolder.name
-      
-      // Fetch desktop images
-      const desktopUrl = `https://api.github.com/repos/${CONFIG.GITHUB_USER}/${CONFIG.REPO_NAME}/contents/wallpapers/${date}/desktop?ref=${CONFIG.BRANCH}`
-      try {
-        const desktopResponse = await fetchWithRetry(desktopUrl)
-        if (desktopResponse.status !== 404) {
-          const desktopData = await desktopResponse.json()
-          if (Array.isArray(desktopData)) {
-            const desktopImages = desktopData
-              .filter(item => item.type === 'file' && item.name.endsWith('.jpg'))
-              .sort((a, b) => a.name.localeCompare(b.name))
-              .map(img => ({
-                name: img.name,
-                path: img.path,
-                url: `https://raw.githubusercontent.com/${CONFIG.GITHUB_USER}/${CONFIG.REPO_NAME}/${CONFIG.BRANCH}/${img.path}`,
-                downloadUrl: `https://raw.githubusercontent.com/${CONFIG.GITHUB_USER}/${CONFIG.REPO_NAME}/${CONFIG.BRANCH}/${img.path}`,
-                date: date,
-                type: 'desktop'
-              }))
-            allImages.push(...desktopImages)
-          }
-        }
-      } catch (e) {
-        console.warn(`Failed to fetch desktop for ${date}:`, e)
-      }
-      
-      // Fetch mobile images
-      const mobileUrl = `https://api.github.com/repos/${CONFIG.GITHUB_USER}/${CONFIG.REPO_NAME}/contents/wallpapers/${date}/mobile?ref=${CONFIG.BRANCH}`
-      try {
-        const mobileResponse = await fetchWithRetry(mobileUrl)
-        if (mobileResponse.status !== 404) {
-          const mobileData = await mobileResponse.json()
-          if (Array.isArray(mobileData)) {
-            const mobileImages = mobileData
-              .filter(item => item.type === 'file' && item.name.endsWith('.jpg'))
-              .sort((a, b) => a.name.localeCompare(b.name))
-              .map(img => ({
-                name: img.name,
-                path: img.path,
-                url: `https://raw.githubusercontent.com/${CONFIG.GITHUB_USER}/${CONFIG.REPO_NAME}/${CONFIG.BRANCH}/${img.path}`,
-                downloadUrl: `https://raw.githubusercontent.com/${CONFIG.GITHUB_USER}/${CONFIG.REPO_NAME}/${CONFIG.BRANCH}/${img.path}`,
-                date: date,
-                type: 'mobile'
-              }))
-            allImages.push(...mobileImages)
-          }
-        }
-      } catch (e) {
-        console.warn(`Failed to fetch mobile for ${date}:`, e)
-      }
+
+    // 格式化为组件需要的 [{ name: '2026-03-24' }, ...]
+    dates.value = data.dates.map(dateStr => ({ name: dateStr }))
+
+    // 默认选中最新的日期
+    if (!currentDate.value || !data.dates.includes(currentDate.value)) {
+      currentDate.value = data.dates[0]
     }
-    
-    wallpapers.value = allImages
-    
-    // Cache the result
-    setCache(cacheKey, allImages)
-    
-    // Generate random theme
-    generateTheme()
+  }
+
+  // 根据当前选择的日期和类型过滤壁纸
+  async function fetchWallpapers() {
+    loading.value = true
+    error.value = null
+
+    try {
+      const data = await loadAllData()
+      if (!data || !data.wallpapers) {
+        wallpapers.value = []
+        return
+      }
+
+      // 如果选了 "all" 类型，汇总该日期的所有横屏和竖屏，或者汇总所有日期的壁纸
+      if (currentType.value === 'all') {
+        const allList = []
+        // 如果有指定日期，展示该日期的所有类型
+        if (currentDate.value && data.wallpapers[currentDate.value]) {
+          const dayData = data.wallpapers[currentDate.value]
+          allList.push(...(dayData.desktop || []))
+          allList.push(...(dayData.mobile || []))
+          if (dayData.theme) {
+            theme.value = dayData.theme
+          }
+        } else {
+          // 否则汇总全部日期的壁纸
+          for (const d of data.dates) {
+            const dayData = data.wallpapers[d]
+            if (dayData) {
+              allList.push(...(dayData.desktop || []))
+              allList.push(...(dayData.mobile || []))
+            }
+          }
+        }
+        wallpapers.value = allList
+        return
+      }
+
+      // 单一类型 (desktop 或 mobile)
+      const dayData = data.wallpapers[currentDate.value]
+      if (!dayData) {
+        wallpapers.value = []
+        return
+      }
+
+      // 设置当前主题
+      if (dayData.theme) {
+        theme.value = dayData.theme
+      } else {
+        generateTheme()
+      }
+
+      const list = dayData[currentType.value] || []
+      wallpapers.value = list
+    } catch (err) {
+      console.error('Error in fetchWallpapers:', err)
+      error.value = 'Failed to load wallpapers.'
+    } finally {
+      loading.value = false
+    }
   }
 
   function generateTheme() {
@@ -304,6 +165,7 @@ export function useWallpapers() {
 
   // Format date for display
   function formatDate(dateStr) {
+    if (!dateStr) return ''
     const date = new Date(dateStr)
     return date.toLocaleDateString('en-US', {
       month: 'short',

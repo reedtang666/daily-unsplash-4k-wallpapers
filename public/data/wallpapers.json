@@ -1,0 +1,207 @@
+{
+  "updatedAt": "2026-03-24T10:00:00Z",
+  "dates": [
+    "2026-03-24",
+    "2026-03-23"
+  ],
+  "wallpapers": {
+    "2026-03-24": {
+      "theme": "serene lake, snowy mountain",
+      "date": "2026-03-24",
+      "desktop": [
+        {
+          "id": "landscape-01",
+          "name": "desktop_01.jpg",
+          "title": "Glacial Lake Under Alpine Peaks",
+          "author": "Luca Bravo",
+          "authorUrl": "https://unsplash.com/@lucabravo",
+          "url": "https://images.unsplash.com/photo-1506744038136-46273834b3fb?w=1920&q=80",
+          "downloadUrl": "https://images.unsplash.com/photo-1506744038136-46273834b3fb?w=3840&h=2160&crop=fill&q=100",
+          "rawUrl": "https://images.unsplash.com/photo-1506744038136-46273834b3fb",
+          "width": 3840,
+          "height": 2160,
+          "type": "desktop",
+          "date": "2026-03-24"
+        },
+        {
+          "id": "landscape-02",
+          "name": "desktop_02.jpg",
+          "title": "Misty Pine Forests in Sunrise",
+          "author": "Kaloi Baliton",
+          "authorUrl": "https://unsplash.com/@kaloibaliton",
+          "url": "https://images.unsplash.com/photo-1470071459604-3b5ec3a7fe05?w=1920&q=80",
+          "downloadUrl": "https://images.unsplash.com/photo-1470071459604-3b5ec3a7fe05?w=3840&h=2160&crop=fill&q=100",
+          "rawUrl": "https://images.unsplash.com/photo-1470071459604-3b5ec3a7fe05",
+          "width": 3840,
+          "height": 2160,
+          "type": "desktop",
+          "date": "2026-03-24"
+        },
+        {
+          "id": "landscape-03",
+          "name": "desktop_03.jpg",
+          "title": "Turquoise Waters of Emerald Lake",
+          "author": "John Fowler",
+          "authorUrl": "https://unsplash.com/@johnfowler",
+          "url": "https://images.unsplash.com/photo-1426604966848-d7adac402bff?w=1920&q=80",
+          "downloadUrl": "https://images.unsplash.com/photo-1426604966848-d7adac402bff?w=3840&h=2160&crop=fill&q=100",
+          "rawUrl": "https://images.unsplash.com/photo-1426604966848-d7adac402bff",
+          "width": 3840,
+          "height": 2160,
+          "type": "desktop",
+          "date": "2026-03-24"
+        },
+        {
+          "id": "landscape-04",
+          "name": "desktop_04.jpg",
+          "title": "Majestic Snow Mountain Reflections",
+          "author": "Damian Patkowski",
+          "authorUrl": "https://unsplash.com/@damianpatkowski",
+          "url": "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?w=1920&q=80",
+          "downloadUrl": "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?w=3840&h=2160&crop=fill&q=100",
+          "rawUrl": "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b",
+          "width": 3840,
+          "height": 2160,
+          "type": "desktop",
+          "date": "2026-03-24"
+        },
+        {
+          "id": "landscape-05",
+          "name": "desktop_05.jpg",
+          "title": "Autumn Creek in Dense Woods",
+          "author": "Bailey Zindel",
+          "authorUrl": "https://unsplash.com/@baileyzindel",
+          "url": "https://images.unsplash.com/photo-1441974231531-c6227db76b6e?w=1920&q=80",
+          "downloadUrl": "https://images.unsplash.com/photo-1441974231531-c6227db76b6e?w=3840&h=2160&crop=fill&q=100",
+          "rawUrl": "https://images.unsplash.com/photo-1441974231531-c6227db76b6e",
+          "width": 3840,
+          "height": 2160,
+          "type": "desktop",
+          "date": "2026-03-24"
+        },
+        {
+          "id": "landscape-06",
+          "name": "desktop_06.jpg",
+          "title": "Minimalist Dunes in Twilight",
+          "author": "Jeremy Bishop",
+          "authorUrl": "https://unsplash.com/@jeremybishop",
+          "url": "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=1920&q=80",
+          "downloadUrl": "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=3840&h=2160&crop=fill&q=100",
+          "rawUrl": "https://images.unsplash.com/photo-1507525428034-b723cf961d3e",
+          "width": 3840,
+          "height": 2160,
+          "type": "desktop",
+          "date": "2026-03-24"
+        }
+      ],
+      "mobile": [
+        {
+          "id": "portrait-01",
+          "name": "mobile_01.jpg",
+          "title": "Vertical Alpine Ridge",
+          "author": "Kalen Emsley",
+          "authorUrl": "https://unsplash.com/@kalenemsley",
+          "url": "https://images.unsplash.com/photo-1519681393784-d120267933ba?w=1080&q=80",
+          "downloadUrl": "https://images.unsplash.com/photo-1519681393784-d120267933ba?w=1440&h=2960&crop=fill&q=100",
+          "rawUrl": "https://images.unsplash.com/photo-1519681393784-d120267933ba",
+          "width": 1440,
+          "height": 2960,
+          "type": "mobile",
+          "date": "2026-03-24"
+        },
+        {
+          "id": "portrait-02",
+          "name": "mobile_02.jpg",
+          "title": "Foggy Valley from Above",
+          "author": "Joel Mott",
+          "authorUrl": "https://unsplash.com/@joelmott",
+          "url": "https://images.unsplash.com/photo-1511497584788-87676104235f?w=1080&q=80",
+          "downloadUrl": "https://images.unsplash.com/photo-1511497584788-87676104235f?w=1440&h=2960&crop=fill&q=100",
+          "rawUrl": "https://images.unsplash.com/photo-1511497584788-87676104235f",
+          "width": 1440,
+          "height": 2960,
+          "type": "mobile",
+          "date": "2026-03-24"
+        },
+        {
+          "id": "portrait-03",
+          "name": "mobile_03.jpg",
+          "title": "Solitary Pine against Blue Sky",
+          "author": "Patrick Hendry",
+          "authorUrl": "https://unsplash.com/@worldsbetweenlines",
+          "url": "https://images.unsplash.com/photo-1509316975850-ff9c5deb0cd9?w=1080&q=80",
+          "downloadUrl": "https://images.unsplash.com/photo-1509316975850-ff9c5deb0cd9?w=1440&h=2960&crop=fill&q=100",
+          "rawUrl": "https://images.unsplash.com/photo-1509316975850-ff9c5deb0cd9",
+          "width": 1440,
+          "height": 2960,
+          "type": "mobile",
+          "date": "2026-03-24"
+        },
+        {
+          "id": "portrait-04",
+          "name": "mobile_04.jpg",
+          "title": "Starry Night Over Silent Woods",
+          "author": "Vincentiu Solomon",
+          "authorUrl": "https://unsplash.com/@vincentiusolomon",
+          "url": "https://images.unsplash.com/photo-1506703719100-a0f3a48c0f86?w=1080&q=80",
+          "downloadUrl": "https://images.unsplash.com/photo-1506703719100-a0f3a48c0f86?w=1440&h=2960&crop=fill&q=100",
+          "rawUrl": "https://images.unsplash.com/photo-1506703719100-a0f3a48c0f86",
+          "width": 1440,
+          "height": 2960,
+          "type": "mobile",
+          "date": "2026-03-24"
+        }
+      ]
+    },
+    "2026-03-23": {
+      "theme": "twilight sky, starry meadow",
+      "date": "2026-03-23",
+      "desktop": [
+        {
+          "id": "landscape-23-01",
+          "name": "desktop_01.jpg",
+          "title": "Pink Twilight Horizon",
+          "author": "Sasha Freemind",
+          "authorUrl": "https://unsplash.com/@sashafreemind",
+          "url": "https://images.unsplash.com/photo-1518495973542-4542c06a5843?w=1920&q=80",
+          "downloadUrl": "https://images.unsplash.com/photo-1518495973542-4542c06a5843?w=3840&h=2160&crop=fill&q=100",
+          "rawUrl": "https://images.unsplash.com/photo-1518495973542-4542c06a5843",
+          "width": 3840,
+          "height": 2160,
+          "type": "desktop",
+          "date": "2026-03-23"
+        },
+        {
+          "id": "landscape-23-02",
+          "name": "desktop_02.jpg",
+          "title": "Galaxy Over Mountain Range",
+          "author": "Mark Basarab",
+          "authorUrl": "https://unsplash.com/@markbasarab",
+          "url": "https://images.unsplash.com/photo-1419242902214-272b3f66ee7a?w=1920&q=80",
+          "downloadUrl": "https://images.unsplash.com/photo-1419242902214-272b3f66ee7a?w=3840&h=2160&crop=fill&q=100",
+          "rawUrl": "https://images.unsplash.com/photo-1419242902214-272b3f66ee7a",
+          "width": 3840,
+          "height": 2160,
+          "type": "desktop",
+          "date": "2026-03-23"
+        }
+      ],
+      "mobile": [
+        {
+          "id": "portrait-23-01",
+          "name": "mobile_01.jpg",
+          "title": "Purple Sunset Gradient",
+          "author": "Jeremy Thomas",
+          "authorUrl": "https://unsplash.com/@jeremythomasphoto",
+          "url": "https://images.unsplash.com/photo-1534447677768-be436bb09401?w=1080&q=80",
+          "downloadUrl": "https://images.unsplash.com/photo-1534447677768-be436bb09401?w=1440&h=2960&crop=fill&q=100",
+          "rawUrl": "https://images.unsplash.com/photo-1534447677768-be436bb09401",
+          "width": 1440,
+          "height": 2960,
+          "type": "mobile",
+          "date": "2026-03-23"
+        }
+      ]
+    }
+  }
+}

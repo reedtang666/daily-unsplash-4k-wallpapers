@@ -83,7 +83,7 @@ function openPreview() {
         class="text-sm font-medium truncate"
         :class="isDark ? 'text-gray-200' : 'text-gray-700'"
       >
-        {{ wallpaper.name }}
+        {{ wallpaper.title || wallpaper.name }}
       </p>
       <p 
         class="text-xs mt-1"

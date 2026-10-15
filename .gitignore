@@ -15,8 +15,5 @@ __pycache__/
 # Build output
 dist/
 
-# OS
-.DS_Store
-
-# Build output
-dist/
+# Wallpapers
+wallpapers/

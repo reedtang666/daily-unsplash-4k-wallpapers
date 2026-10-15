@@ -1,107 +1,175 @@
 import os
-import requests
+import json
 from datetime import datetime
 import random
-from dotenv import load_dotenv  # 加载 .env 文件（本地开发用）
+import requests
+from dotenv import load_dotenv
 
 # -------------------------- 配置项 --------------------------
-# 优先从环境变量读取 API Key，本地开发时从 .env 文件加载
-load_dotenv()  # 加载项目根目录的 .env 文件（仅本地开发需要）
-ACCESS_KEY = os.getenv("UNSPLASH_ACCESS_KEY")  # 环境变量名：UNSPLASH_ACCESS_KEY
+load_dotenv()
+ACCESS_KEY = os.getenv("UNSPLASH_ACCESS_KEY")
 
 if not ACCESS_KEY:
     raise ValueError("❌ 未找到 Unsplash API Key！请配置环境变量 UNSPLASH_ACCESS_KEY")
 
 DESKTOP_RES = (3840, 2160)  # 电脑 4K 分辨率（横屏）
-MOBILE_RES = (1440, 2960)   # 手机 4K 分辨率（竖屏，适配主流旗舰机）
+MOBILE_RES = (1440, 2960)   # 手机 4K 分辨率（竖屏）
 PER_PAGE = 10               # 每种类型抓取数量
-# 随机主题列表（每次选1-2个，实现主题随机）
+
 WALLPAPER_THEMES = [
-    "serene lake",    # 静谧湖泊（治愈系，浅色调适配白天桌面）
-    "snowy mountain", # 雪山（壮阔感，高对比度不挡图标）
-    "twilight sky",   # 暮色天空（渐变色彩，适配锁屏/深色模式）
-    "soft minimalist",# 柔和简约（低饱和度，不干扰桌面操作）
-    "starry meadow",  # 星空草甸（意境感，夜间使用不刺眼）
-    "ethereal architecture" # 空灵建筑（线条感强，适配图标排版）
+    "serene lake",
+    "snowy mountain",
+    "twilight sky",
+    "soft minimalist",
+    "starry meadow",
+    "ethereal architecture",
+    "calm ocean",
+    "foggy forest",
+    "cyberpunk city",
+    "golden sunset"
 ]
-# ------------------------------------------------------------
 
 def get_random_theme():
-    """随机选择1-2个主题"""
+    """随机选择 1-2 个主题"""
     num_themes = random.randint(1, 2)
     return ", ".join(random.sample(WALLPAPER_THEMES, num_themes))
 
-def crawl_wallpapers(orientation, res_width, res_height, save_dir):
+def fetch_unsplash_wallpapers(theme, orientation, res_width, res_height, type_name):
     """
-    抓取指定方向和分辨率的壁纸
-    :param orientation: 方向（landscape=横屏/desktop，portrait=竖屏/mobile）
-    :param res_width: 宽度
-    :param res_height: 高度
-    :param save_dir: 保存目录
+    通过 Unsplash API 获取壁纸元数据与 4K 直链
     """
-    # 创建保存目录（不存在则创建）
-    os.makedirs(save_dir, exist_ok=True)
-    
-    # 构造 API 请求参数
-    theme = get_random_theme()
     url = "https://api.unsplash.com/search/photos"
     params = {
         "query": theme,
         "orientation": orientation,
         "per_page": PER_PAGE,
-        "w": res_width,
-        "h": res_height,
-        "order_by": "latest"  # 按主题相关性排序
+        "order_by": "latest"
     }
     headers = {
         "Authorization": f"Client-ID {ACCESS_KEY}",
-        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36"
+        "User-Agent": "DailyUnsplash4K/2.0"
     }
 
     try:
         response = requests.get(url, params=params, headers=headers, timeout=30)
-        response.raise_for_status()  # 抛出 HTTP 错误
-        data = response.json()["results"]
-        
-        if not data:
-            print(f"⚠️  未获取到 {orientation} 壁纸（主题：{theme}）")
-            return
+        response.raise_for_status()
+        data = response.json().get("results", [])
 
-        # 下载并保存图片
-        for idx, photo in enumerate(data, 1):
-            # 筛选免费图片（排除 Unsplash+ 付费图）
+        wallpapers = []
+        idx = 1
+        for photo in data:
             if photo.get("premium", False):
-                print(f"❌ 跳过付费图片：{photo['id']}")
                 continue
-            
-            # 获取 4K 分辨率图片直链（crop=fill 保证尺寸精准）
-            img_url = photo["urls"]["raw"] + f"&w={res_width}&h={res_height}&crop=fill"
-            img_name = f"{orientation}_{idx:02d}.jpg"  # 命名：desktop_01.jpg
-            save_path = os.path.join(save_dir, img_name)
 
-            # 下载图片
-            img_response = requests.get(img_url, timeout=20)
-            with open(save_path, "wb") as f:
-                f.write(img_response.content)
-            
-            print(f"✅ 保存成功：{save_path}（作者：{photo['user']['name']}）")
+            raw_url = photo.get("urls", {}).get("raw", "")
+            if not raw_url:
+                continue
+
+            # 4K 高清原图下载链接（裁剪为目标 4K 比例，质量 100%）
+            download_url = f"{raw_url}&w={res_width}&h={res_height}&crop=fill&q=100"
+            # 网页流畅预览图链接（轻量化 1920/1080 宽度，保证加载速度）
+            preview_width = 1920 if type_name == "desktop" else 1080
+            preview_url = photo.get("urls", {}).get("regular") or f"{raw_url}&w={preview_width}&q=80"
+
+            title = (
+                photo.get("description")
+                or photo.get("alt_description")
+                or f"{theme.capitalize()} 4K Wallpaper"
+            )
+
+            wallpapers.append({
+                "id": photo.get("id"),
+                "name": f"{type_name}_{idx:02d}.jpg",
+                "title": title,
+                "author": photo.get("user", {}).get("name", "Unknown Artist"),
+                "authorUrl": photo.get("user", {}).get("links", {}).get("html", "https://unsplash.com"),
+                "url": preview_url,
+                "downloadUrl": download_url,
+                "rawUrl": raw_url,
+                "width": res_width,
+                "height": res_height,
+                "type": type_name
+            })
+            idx += 1
+
+        print(f"✅ 获取到 {len(wallpapers)} 张 {type_name} 壁纸（主题：{theme}）")
+        return wallpapers
 
     except Exception as e:
-        print(f"❌ 抓取失败：{str(e)}")
+        print(f"❌ 抓取 {type_name} 失败: {str(e)}")
+        return []
+
+def update_wallpapers_data(today_date, theme, desktop_list, mobile_list):
+    """
+    更新并持久化到 data/wallpapers.json 以及 public/data/wallpapers.json
+    保持历史日期不被覆盖，新日期插入最前
+    """
+    target_files = [
+        os.path.join(os.getcwd(), "data", "wallpapers.json"),
+        os.path.join(os.getcwd(), "public", "data", "wallpapers.json")
+    ]
+
+    # 读取已有数据
+    existing_data = {"dates": [], "wallpapers": {}}
+    for fpath in target_files:
+        if os.path.exists(fpath):
+            try:
+                with open(fpath, "r", encoding="utf-8") as f:
+                    existing_data = json.load(f)
+                    if "dates" in existing_data and "wallpapers" in existing_data:
+                        break
+            except Exception:
+                pass
+
+    dates = existing_data.get("dates", [])
+    wallpapers_map = existing_data.get("wallpapers", {})
+
+    # 更新今天的壁纸数据
+    for item in desktop_list:
+        item["date"] = today_date
+    for item in mobile_list:
+        item["date"] = today_date
+
+    wallpapers_map[today_date] = {
+        "theme": theme,
+        "date": today_date,
+        "desktop": desktop_list,
+        "mobile": mobile_list
+    }
+
+    if today_date not in dates:
+        dates.insert(0, today_date)
+    else:
+        # 确保按时间降序排列
+        dates.sort(reverse=True)
+
+    result_data = {
+        "updatedAt": datetime.utcnow().strftime("%Y-%m-%dT%H:%M:%SZ"),
+        "dates": dates,
+        "wallpapers": wallpapers_map
+    }
+
+    # 写入各目标路径
+    for fpath in target_files:
+        os.makedirs(os.path.dirname(fpath), exist_ok=True)
+        with open(fpath, "w", encoding="utf-8") as f:
+            json.dump(result_data, f, ensure_ascii=False, indent=2)
+        print(f"📁 数据已同步保存至: {fpath}")
 
 if __name__ == "__main__":
-    # 获取当前日期（格式：yyyy-mm-dd）
     today = datetime.now().strftime("%Y-%m-%d")
-    base_dir = os.path.join(os.getcwd(), "wallpapers", today)
+    current_theme = get_random_theme()
+    print(f"🚀 开始抓取 {today} Unsplash 4K 壁纸（主题: {current_theme}）")
 
-    # 1. 抓取电脑 4K 壁纸（横屏）
-    desktop_dir = os.path.join(base_dir, "desktop")
-    print(f"📥 开始抓取电脑 4K 壁纸（主题：{get_random_theme()}）")
-    crawl_wallpapers("landscape", DESKTOP_RES[0], DESKTOP_RES[1], desktop_dir)
+    # 1. 获取电脑横屏 4K 壁纸
+    desktops = fetch_unsplash_wallpapers(current_theme, "landscape", DESKTOP_RES[0], DESKTOP_RES[1], "desktop")
 
-    # 2. 抓取手机 4K 壁纸（竖屏）
-    mobile_dir = os.path.join(base_dir, "mobile")
-    print(f"\n📥 开始抓取手机 4K 壁纸（主题：{get_random_theme()}）")
-    crawl_wallpapers("portrait", MOBILE_RES[0], MOBILE_RES[1], mobile_dir)
+    # 2. 获取手机竖屏 4K 壁纸
+    mobiles = fetch_unsplash_wallpapers(current_theme, "portrait", MOBILE_RES[0], MOBILE_RES[1], "mobile")
 
-    print(f"\n🎉 抓取完成！所有壁纸已保存至：{base_dir}")
+    # 3. 写入 JSON 数据源（无需下载任何庞大图片文件）
+    if desktops or mobiles:
+        update_wallpapers_data(today, current_theme, desktops, mobiles)
+        print(f"🎉 抓取成功！全部壁纸直链已保存，体积仅几 KB，无 Git 仓库膨胀困扰！")
+    else:
+        print("⚠️ 未获取到有效壁纸数据，保留原有数据不变。")

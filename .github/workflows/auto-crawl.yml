@@ -47,15 +47,15 @@ jobs:
           git config --global user.name "reedtang666"
           git config --global user.email "reedtang666@gmail.com"
           
-          git add wallpapers/
+          git add data/ public/data/
           git status --porcelain
           
           if git diff --quiet --staged; then
-            echo "ℹ️  无新壁纸可提交"
+            echo "ℹ️  无新壁纸数据可提交"
           else
             TODAY=$(date +"%Y-%m-%d")
-            git commit -m "feat: add $TODAY 4K wallpapers"
+            git commit -m "feat: update wallpaper metadata for $TODAY"
             # 关键：使用 GITHUB_TOKEN 推送，而非默认的 HTTPS 凭据
             git push https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/reedtang666/daily-unsplash-4k-wallpapers.git main
-            echo "✅ 新壁纸已提交到仓库"
+            echo "✅ 新壁纸数据已提交到仓库"
           fi
