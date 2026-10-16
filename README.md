@@ -32,7 +32,7 @@ Powered by **GitHub Actions** (auto-crawling & deployment) and **GitHub Pages**.
   * Streamed Blob download preserving full 3840×2160 resolution without browser interception.
   * Photographer credit and Unsplash profile attributions included.
 * **🤖 Fully Automated Workflow**:
-  * Scheduled crawl runs daily at 10:00 AM (Asia/Shanghai) via GitHub Actions.
+  * Scheduled crawl runs daily at 05:23 AM (Asia/Shanghai) via GitHub Actions.
   * Automatically commits new wallpaper metadata and triggers GitHub Pages re-deployment.
 
 ---
@@ -156,8 +156,8 @@ Modify the cron schedule in `.github/workflows/auto-crawl.yml`:
 ```yaml
 on:
   schedule:
-    - cron: '0 2 * * *'  # UTC 02:00 = 10:00 AM Asia/Shanghai
-  workflow_dispatch:     # Enables manual one-click trigger from GitHub Actions tab
+    - cron: '23 21 * * *'  # UTC 21:23 = 05:23 AM Asia/Shanghai (next day)
+  workflow_dispatch:       # Enables manual one-click trigger from GitHub Actions tab
 ```
 
 ### 2. Adjusting Wallpaper Counts

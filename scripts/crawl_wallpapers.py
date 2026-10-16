@@ -1,6 +1,6 @@
 import os
 import json
-from datetime import datetime
+from datetime import datetime, timezone, timedelta
 import random
 import requests
 from dotenv import load_dotenv
@@ -169,7 +169,8 @@ def update_wallpapers_data(today_date, theme, desktop_list, mobile_list):
         print(f"📁 数据已同步保存至: {fpath}")
 
 if __name__ == "__main__":
-    today = datetime.now().strftime("%Y-%m-%d")
+    beijing_tz = timezone(timedelta(hours=8))
+    today = datetime.now(beijing_tz).strftime("%Y-%m-%d")
     current_theme = get_random_theme()
     print(f"🚀 开始抓取 {today} Unsplash 4K 壁纸（主题: {current_theme}）")
 
