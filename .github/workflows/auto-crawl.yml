@@ -5,11 +5,14 @@ permissions:
   contents: write  # 允许修改仓库内容（推送文件、提交代码）
   pull-requests: read  # 可选，仅读取PR相关（无需可删除）
 
-# 触发条件：每天上海时间早上10点（UTC时间凌晨2点）
+# 触发条件：每天北京时间早上 05:23（UTC时间前一天 21:23，错开整点排队高峰）
 on:
   schedule:
-    - cron: '0 2 * * *'  # UTC 02:00 = 上海时间 10:00 (UTC+8)
+    - cron: '23 21 * * *'  # UTC 21:23 = 北京时间次日 05:23 (UTC+8)
   workflow_dispatch:
+
+env:
+  TZ: Asia/Shanghai  # 强制使用北京时间，确保跨日时日期为当天而非 UTC 前一天
 
 jobs:
   crawl-and-commit:
