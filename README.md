@@ -175,4 +175,6 @@ PER_PAGE = 20  # Number of wallpapers per type (20 desktop + 20 mobile = 40/day)
 
 ---
 
+ReedTang 💓 you
+
 Made with ❤️ by [reedtang666](https://github.com/reedtang666) reedtang ❤️ you
