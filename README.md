@@ -88,7 +88,7 @@ Every day, the crawler randomly selects 1–2 themes from this curated photograp
 
 ---
 
-## 🚀 Getting Started
+## 🚀 Getting Started 
 
 ### Prerequisites
 * **Node.js** 18+ & **npm**
