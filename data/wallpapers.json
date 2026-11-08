@@ -1,6 +1,7 @@
 {
-  "updatedAt": "2026-11-07T01:00:04Z",
+  "updatedAt": "2026-11-08T00:48:40Z",
   "dates": [
+    "2026-11-08",
     "2026-11-07",
     "2026-11-06",
     "2026-11-05",
@@ -12951,6 +12952,56 @@
           "height": 2960,
           "type": "mobile",
           "date": "2026-11-07"
+        }
+      ]
+    },
+    "2026-11-08": {
+      "theme": "golden sunset, iceland waterfall",
+      "date": "2026-11-08",
+      "desktop": [
+        {
+          "id": "Kd-qs7MyEDg",
+          "name": "desktop_01.jpg",
+          "title": "Golden sunset over a misty waterfall landscape",
+          "author": "Ingrid Eich",
+          "authorUrl": "https://unsplash.com/@reflectnaturestudio",
+          "url": "https://images.unsplash.com/photo-1767930704291-a12b91e5a261?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w4MzUyMjZ8MHwxfHNlYXJjaHwxfHxnb2xkZW4lMjBzdW5zZXQlMkMlMjBpY2VsYW5kJTIwd2F0ZXJmYWxsfGVufDB8MHwyfHwxNzk0MDk4OTE5fDA&ixlib=rb-4.1.0&q=80&w=1080",
+          "downloadUrl": "https://images.unsplash.com/photo-1767930704291-a12b91e5a261?ixid=M3w4MzUyMjZ8MHwxfHNlYXJjaHwxfHxnb2xkZW4lMjBzdW5zZXQlMkMlMjBpY2VsYW5kJTIwd2F0ZXJmYWxsfGVufDB8MHwyfHwxNzk0MDk4OTE5fDA&ixlib=rb-4.1.0&w=3840&h=2160&crop=fill&q=100",
+          "rawUrl": "https://images.unsplash.com/photo-1767930704291-a12b91e5a261?ixid=M3w4MzUyMjZ8MHwxfHNlYXJjaHwxfHxnb2xkZW4lMjBzdW5zZXQlMkMlMjBpY2VsYW5kJTIwd2F0ZXJmYWxsfGVufDB8MHwyfHwxNzk0MDk4OTE5fDA&ixlib=rb-4.1.0",
+          "width": 3840,
+          "height": 2160,
+          "type": "desktop",
+          "date": "2026-11-08"
+        }
+      ],
+      "mobile": [
+        {
+          "id": "Fe6h6sagvJ8",
+          "name": "mobile_01.jpg",
+          "title": "From series \"Icelandicscapes\". More stuff https://www.instagram.com/dovydas.moc/",
+          "author": "dovydas mockus",
+          "authorUrl": "https://unsplash.com/@dmockus",
+          "url": "https://images.unsplash.com/photo-1778699524544-cdf2120d63ab?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w4MzUyMjZ8MHwxfHNlYXJjaHwxfHxnb2xkZW4lMjBzdW5zZXQlMkMlMjBpY2VsYW5kJTIwd2F0ZXJmYWxsfGVufDB8MXwyfHwxNzk0MDk4OTIwfDA&ixlib=rb-4.1.0&q=80&w=1080",
+          "downloadUrl": "https://images.unsplash.com/photo-1778699524544-cdf2120d63ab?ixid=M3w4MzUyMjZ8MHwxfHNlYXJjaHwxfHxnb2xkZW4lMjBzdW5zZXQlMkMlMjBpY2VsYW5kJTIwd2F0ZXJmYWxsfGVufDB8MXwyfHwxNzk0MDk4OTIwfDA&ixlib=rb-4.1.0&w=1440&h=2960&crop=fill&q=100",
+          "rawUrl": "https://images.unsplash.com/photo-1778699524544-cdf2120d63ab?ixid=M3w4MzUyMjZ8MHwxfHNlYXJjaHwxfHxnb2xkZW4lMjBzdW5zZXQlMkMlMjBpY2VsYW5kJTIwd2F0ZXJmYWxsfGVufDB8MXwyfHwxNzk0MDk4OTIwfDA&ixlib=rb-4.1.0",
+          "width": 1440,
+          "height": 2960,
+          "type": "mobile",
+          "date": "2026-11-08"
+        },
+        {
+          "id": "Ki7PqK4OW3g",
+          "name": "mobile_02.jpg",
+          "title": "From series \"Icelandicscapes\". More stuff https://www.instagram.com/dovydas.moc/",
+          "author": "dovydas mockus",
+          "authorUrl": "https://unsplash.com/@dmockus",
+          "url": "https://images.unsplash.com/photo-1775499235057-ffdc86bb2644?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w4MzUyMjZ8MHwxfHNlYXJjaHwyfHxnb2xkZW4lMjBzdW5zZXQlMkMlMjBpY2VsYW5kJTIwd2F0ZXJmYWxsfGVufDB8MXwyfHwxNzk0MDk4OTIwfDA&ixlib=rb-4.1.0&q=80&w=1080",
+          "downloadUrl": "https://images.unsplash.com/photo-1775499235057-ffdc86bb2644?ixid=M3w4MzUyMjZ8MHwxfHNlYXJjaHwyfHxnb2xkZW4lMjBzdW5zZXQlMkMlMjBpY2VsYW5kJTIwd2F0ZXJmYWxsfGVufDB8MXwyfHwxNzk0MDk4OTIwfDA&ixlib=rb-4.1.0&w=1440&h=2960&crop=fill&q=100",
+          "rawUrl": "https://images.unsplash.com/photo-1775499235057-ffdc86bb2644?ixid=M3w4MzUyMjZ8MHwxfHNlYXJjaHwyfHxnb2xkZW4lMjBzdW5zZXQlMkMlMjBpY2VsYW5kJTIwd2F0ZXJmYWxsfGVufDB8MXwyfHwxNzk0MDk4OTIwfDA&ixlib=rb-4.1.0",
+          "width": 1440,
+          "height": 2960,
+          "type": "mobile",
+          "date": "2026-11-08"
         }
       ]
     }
